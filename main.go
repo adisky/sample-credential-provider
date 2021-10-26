@@ -70,7 +70,7 @@ func NewGetCredentialsCommand() (*cobra.Command, error) {
 }
 
 func getCredentials() error {
-	klog.V(2).Infof("docker auth provider get-credentials")
+	klog.V(2).Infof("external docker auth provider get-credentials")
 
 	unparsedRequest, err := ioutil.ReadAll(os.Stdin)
 	if err != nil {
@@ -86,7 +86,7 @@ func getCredentials() error {
 	SetPreferredDockercfgPath("/var/lib/kubelet")
 
 	dockercfg := Provide(authRequest.Image)
-	fmt.Println(dockercfg)
+	// fmt.Println(dockercfg)
 	authMap := map[string]credentialproviderapi.AuthConfig{}
 
 	for k, v := range dockercfg {
@@ -97,7 +97,7 @@ func getCredentials() error {
 
 	}
 
-	response := credentialproviderapi.CredentialProviderResponse{
+	response := &credentialproviderapi.CredentialProviderResponse{
 		CacheKeyType: credentialproviderapi.RegistryPluginCacheKeyType,
 		Auth:         authMap,
 	}
